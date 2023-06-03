@@ -1,0 +1,117 @@
+id: matrixSink_matrix_sink
+label: matrix_sink
+category: '[matrixSink]'
+
+templates:
+  imports: |-
+        from gnuradio import matrixSink
+        from PyQt5 import Qt
+        import display
+        import sip
+
+  make: |-
+        <%
+            win = 'self._%s_win'%id
+        %>\
+        matrixSink.matrix_sink(
+            ${'name' if len(name) > 0 else 'None'},
+            ${vlen},
+            ${num_cols},
+            ${x_start},
+            ${x_end},
+            ${y_start},
+            ${y_end},
+            ${z_max},
+            ${z_min},
+            ${x_axis_label},
+            ${y_axis_label},
+            ${z_axis_label},
+            None            
+        )
+        ${win} = sip.wrapinstance(self.${id}.qwidget(), Qt.QWidget)
+        ${gui_hint() % win}
+        
+
+#  Make one 'parameters' list entry for every parameter you want settable from the GUI.
+#     Keys include:
+#     * id (makes the value accessible as keyname, e.g. in the make entry)
+#     * label (label shown in the GUI)
+#     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
+#     * default
+parameters:
+-   id: name
+    label: Name
+    dtype: string
+    default: '"Matrix Sink"'
+    hide: ${ ('none' if len(name) > 0 else 'part') }
+-   id: vlen
+    label: Vector Size
+    dtype: int
+    default: 100
+-   id: num_cols
+    label: Number of Columns
+    dtype: int
+    default: 10
+-   id: x_start
+    label: X-Axis Start Value
+    dtype: real
+    default: 0
+-   id: x_end
+    label: X-Axis End Value
+    dtype: real
+    default: 1
+-   id: y_start
+    label: Y-Axis Start Value
+    dtype: real
+    default: 0
+-   id: y_end
+    label: Y-Axis End Value
+    dtype: real
+    default: 1
+-   id: z_max
+    label: Z-Axis Maximum Value
+    dtype: real
+    default: 1
+-   id: z_min
+    label: Z-Axis Minimum Value
+    dtype: real
+    default: 0
+-   id: x_axis_label
+    label: X-Axis Label
+    dtype: string
+    default: '"x-Axis"'
+-   id: y_axis_label
+    label: Y-Axis Label
+    dtype: string
+    default: '"y-Axis"'
+-   id: z_axis_label
+    label: Z-Axis Label
+    dtype: string
+    default: '"z-Axis"'
+-   id: gui_hint
+    label: GUI Hint
+    dtype: gui_hint
+    hide: part
+
+
+inputs:
+-   domain: stream
+    dtype: float
+    vlen: ${ vlen }
+    optional: false
+#- label: ...
+#  domain: ...
+#  dtype: ...
+#  vlen: ...
+#  optional: ...
+
+# outputs:
+#- label: ...
+#  domain: ...
+#  dtype: ...
+#  vlen: ...
+#  optional: ...
+
+#  'file_format' specifies the version of the GRC yml format used in the file
+#  and should usually not be changed.
+file_format: 1
