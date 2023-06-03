@@ -6,7 +6,6 @@ templates:
   imports: |-
         from gnuradio import matrixSink
         from PyQt5 import Qt
-        import display
         import sip
 
   make: |-
@@ -14,7 +13,7 @@ templates:
             win = 'self._%s_win'%id
         %>\
         matrixSink.matrix_sink(
-            ${'name' if len(name) > 0 else 'None'},
+            ${name},
             ${vlen},
             ${num_cols},
             ${x_start},
@@ -25,8 +24,7 @@ templates:
             ${z_min},
             ${x_axis_label},
             ${y_axis_label},
-            ${z_axis_label},
-            None            
+            ${z_axis_label}          
         )
         ${win} = sip.wrapinstance(self.${id}.qwidget(), Qt.QWidget)
         ${gui_hint() % win}

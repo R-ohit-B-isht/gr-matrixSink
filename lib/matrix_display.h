@@ -33,7 +33,7 @@ public:
                      const std::string& z_axis_label,
                      QWidget* parent = nullptr);
 
-    ~matrix_display();
+    // ~matrix_display();
     void set_data(std::vector<double> data);
 
 

@@ -68,7 +68,10 @@ matrix_display::matrix_display(const std::string& name,
 
 }
 
-void matrix_display::set_data(std::vector<double> data) {
+// matrix_display::~matrix_display() {}
+
+void matrix_display::set_data(std::vector<double> data)
+{
 
     QVector<double> qvector_data;
     //convert from std::vector to QVector
