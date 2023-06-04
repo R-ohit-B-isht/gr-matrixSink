@@ -14,8 +14,8 @@ templates:
         %>\
         matrixSink.matrix_sink(
             ${name},
-            ${vlen},
             ${num_cols},
+            ${vlen},
             ${x_start},
             ${x_end},
             ${y_start},

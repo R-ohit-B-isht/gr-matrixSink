@@ -49,7 +49,7 @@ matrix_display::matrix_display(const std::string& name,
     d_z_axis->setTitle(z_axis_label.c_str());
     d_z_axis->setColorBarEnabled( true );
     d_z_axis->setColorMap( QwtInterval( d_z_min, d_z_max ) , (QwtColorMap*)d_colorMap);
-    d_plot->setAxisScale( QwtPlot::yRight, 0, 10.0 );
+    d_plot->setAxisScale( QwtPlot::yRight, d_z_min, d_z_max );
     d_plot->enableAxis(QwtPlot::yRight, true);
 
 
@@ -62,9 +62,9 @@ matrix_display::matrix_display(const std::string& name,
     d_plot->repaint();
     d_plot->show();
 
-    d_hLayout = new QHBoxLayout();
+    d_hLayout = new QHBoxLayout(this);
     d_hLayout->addWidget(d_plot);
-    this->setLayout(d_hLayout);
+    // this->setLayout(d_hLayout);
 
 }
 
