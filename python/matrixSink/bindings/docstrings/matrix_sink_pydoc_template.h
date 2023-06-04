@@ -19,3 +19,9 @@ static const char* __doc_gr_matrixSink_matrix_sink = R"doc()doc";
 
 
 static const char* __doc_gr_matrixSink_matrix_sink_make = R"doc()doc";
+
+
+static const char* __doc_gr_matrixSink_matrix_sink_exec_ = R"doc()doc";
+
+
+static const char* __doc_gr_matrixSink_matrix_sink_qwidget = R"doc()doc";

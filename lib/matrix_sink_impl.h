@@ -43,9 +43,9 @@ public:
                      );
     ~matrix_sink_impl();
 
-    void exec_();
+    void exec_()override;
     QApplication* d_qApplication;
-    QWidget* qwidget();
+    QWidget* qwidget() override;
 
     // Where all the action really happens
     int work(int noutput_items,

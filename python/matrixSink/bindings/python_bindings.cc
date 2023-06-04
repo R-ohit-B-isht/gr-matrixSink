@@ -43,7 +43,7 @@ PYBIND11_MODULE(matrixSink_python, m)
 
     // Allow access to base block methods
     py::module::import("gnuradio.gr");
-
+    py::module::import("gnuradio.qtgui.qtgui_python");
     /**************************************/
     // The following comment block is used for
     // gr_modtool to insert binding function calls

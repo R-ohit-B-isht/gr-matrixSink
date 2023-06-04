@@ -7,7 +7,7 @@
 
 #include "matrix_sink_impl.h"
 #include <gnuradio/io_signature.h>
-
+#include <QDebug>
 namespace gr {
 namespace matrixSink {
 
@@ -61,8 +61,10 @@ matrix_sink_impl::matrix_sink_impl(const std::string& name,
                      QWidget* parent)
     : gr::sync_block("matrix_sink",
                      gr::io_signature::make(
-                         1, 1, sizeof(input_type)),
-                     gr::io_signature::make(0, 0, 0))
+                         1, 1, sizeof(input_type)* vlen),
+                     gr::io_signature::make(0, 0, 0)),
+                     d_vlen(vlen),
+                     d_name(name)
 {
     if (qApp != nullptr) {
         d_qApplication = qApp;
@@ -99,16 +101,22 @@ int matrix_sink_impl::work(int noutput_items,
                            gr_vector_void_star& output_items)
 {
     auto in = static_cast<const input_type*>(input_items[0]);
-
+    //log the input size
+    
 
     // Do <+signal processing+>
 
+        std::vector<double> data(in , in + d_vlen);
+        d_display->set_data(data);
+
+
     
-    std::vector<double> data(in, in + d_vlen);
-    d_display->set_data(data);
     // Tell runtime system how many output items we produced.
     return noutput_items;
 }
 
 } /* namespace matrixSink */
 } /* namespace gr */
+
+
+
