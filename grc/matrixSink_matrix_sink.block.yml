@@ -64,13 +64,13 @@ parameters:
     dtype: enum
     default: '"rgb"'
     options: ['"rgb"','"indexed"','"alpha"']
-    option_lables: ['"RGB"','"Indexed"','"Alpha"']
+    option_labels: ['RGB','Indexed','Alpha']
 -   id: interpolation
     label: Interpolation
     dtype: enum
     default: '"none"'
     options: ['"none"','"BilinearInterpolation"','"BicubicInterpolation"','"NearestNeighbour"']
-    option_lables: ['"none"','"Bilinear Interpolation"','"Bicubic Interpolation"','"Nearest Neighbour"']
+    option_labels: ['none','Bilinear Interpolation','Bicubic Interpolation','Nearest Neighbour']
 -   id: x_start
     label: X-Axis Start Value
     dtype: real

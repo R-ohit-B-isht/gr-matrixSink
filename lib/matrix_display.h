@@ -1,5 +1,5 @@
-// # ifdef MATRIX_DISPLAY_H
-// # define MATRIX_DISPLAY_H
+# ifndef MATRIX_DISPLAY_H
+# define MATRIX_DISPLAY_H
 
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
@@ -71,7 +71,7 @@ QList<double> d_contour_levels;
 
 };
 
-// #endif // MATRIX_DISPLAY_H
+#endif // MATRIX_DISPLAY_H
 
 
 

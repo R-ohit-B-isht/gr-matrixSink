@@ -1,5 +1,6 @@
-// #ifndef INCLUDED_MATRIXSINK_MATRIX_SINK_IMPL_H
-// #define INCLUDED_MATRIXSINK_MATRIX_SINK_IMPL_H
+#ifndef MATRIX_DISPLAY_SIGNAL_H
+#define MATRIX_DISPLAY_SIGNAL_H
+
 #include <QObject>
 #include <QVector>
 
@@ -16,4 +17,4 @@ signals:
     
 };
 
-// #endif /* INCLUDED_MATRIXSINK_MATRIX_SINK_IMPL_H */
+#endif /* INCLUDED_MATRIXSINK_MATRIX_SINK_IMPL_H */
