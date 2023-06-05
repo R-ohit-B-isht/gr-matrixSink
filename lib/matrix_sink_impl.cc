@@ -8,6 +8,8 @@
 #include "matrix_sink_impl.h"
 #include <gnuradio/io_signature.h>
 #include <QDebug>
+#include <QVector>
+
 namespace gr {
 namespace matrixSink {
 
@@ -84,6 +86,13 @@ matrix_sink_impl::matrix_sink_impl(const std::string& name,
      y_axis_label, 
      z_axis_label, 
      parent);
+
+     d_signal = new matrix_display_signal();
+
+    qRegisterMetaType<QVector<double>>("QVector<double>");
+    QObject::connect(d_signal, &matrix_display_signal::dataReady,
+                 d_display, &matrix_display::set_data);
+
      
 }
 
@@ -106,12 +115,15 @@ int matrix_sink_impl::work(int noutput_items,
 
     // Do <+signal processing+>
 
-        std::vector<double> data(in , in + d_vlen);
-        d_display->set_data(data);
+        QVector<double> qvec ;
+        for (int i = 0; i < d_vlen; i++)
+        {
+            qvec.append(in[i]);
+        }
 
 
-    
-    // Tell runtime system how many output items we produced.
+        emit d_signal->dataReady(qvec);
+
     return noutput_items;
 }
 

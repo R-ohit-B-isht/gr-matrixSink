@@ -13,6 +13,7 @@ include(GrPlatform) #define LIB_SUFFIX
 
 set(display_moc_hdrs
     matrix_display.h
+    matrix_display_signal.h
 )
 
 QT5_WRAP_CPP(display_moc_srcs ${display_moc_hdrs})

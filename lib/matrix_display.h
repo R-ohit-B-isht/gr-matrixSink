@@ -14,6 +14,8 @@
 #include <qwt_scale_widget.h>
 #include <qwt_interval.h>
 #include <vector>
+#include <QVector>
+
 
 class matrix_display : public QWidget
 {
@@ -34,7 +36,8 @@ public:
                      QWidget* parent = nullptr);
 
     // ~matrix_display();
-    void set_data(std::vector<double> data);
+public slots:
+    void set_data(QVector<double> data);
 
 
 private:

@@ -61,7 +61,7 @@ matrix_display::matrix_display(const std::string& name,
 
     d_data = new QwtMatrixRasterData;
     
-    qInfo()<<"x start : "<<d_x_start<<" x end : "<<d_x_end<<" y start : "<<d_y_start<<" y end : "<<d_y_end<<" z min : "<<d_z_min<<" z max : "<<d_z_max;
+    // qInfo()<<"x start : "<<d_x_start<<" x end : "<<d_x_end<<" y start : "<<d_y_start<<" y end : "<<d_y_end<<" z min : "<<d_z_min<<" z max : "<<d_z_max;
     d_data->setInterval( Qt::XAxis, QwtInterval( d_x_start, d_x_end ) );
     d_data->setInterval( Qt::YAxis, QwtInterval( d_y_start, d_y_end ) );
     d_data->setInterval( Qt::ZAxis, QwtInterval( d_z_min, d_z_max ) );
@@ -78,22 +78,12 @@ matrix_display::matrix_display(const std::string& name,
 
 // matrix_display::~matrix_display() {}
 
-void matrix_display::set_data(std::vector<double> data)
+void matrix_display::set_data(QVector<double> data)
 {
+    
+    d_data->setValueMatrix(data, d_num_cols);
 
-    QVector<double> qvector_data;//={0,1,0,1};
-    //convert from std::vector to QVector
-    for (int i = 0; i < data.size(); i++)
-    {
-        qvector_data.push_back(data[i]);
-    }
-    d_data->setValueMatrix(qvector_data, d_num_cols);
-
-    // qInfo() << "data: " << data;
     d_spectrogram->setData(d_data);
-    // d_plot->replot();
-    // d_plot->repaint();
-    // d_plot->show();
-
-    // update();
+    d_plot->replot();
+    
 }
