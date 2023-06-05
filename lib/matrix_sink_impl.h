@@ -18,17 +18,15 @@
 namespace gr {
 namespace matrixSink {
 
-class matrix_sink_impl : public matrix_sink //, public QObject
+class matrix_sink_impl : public matrix_sink 
 {
-    //Q_OBJECT
 private:
     // Nothing to declare in this block.
+    QWidget* d_parent;
     unsigned int d_vlen;
     std::string d_name;
     std::vector<double> d_data;
-    char d_zero = 0;
-    int d_argc = 1;
-    char* d_argv = &d_zero;
+    char* d_argv ;
     matrix_display* d_display;
     matrix_display_signal* d_signal;
 
@@ -36,6 +34,9 @@ public:
     matrix_sink_impl(const std::string& name,
                      unsigned int num_cols,
                      unsigned int vlen,
+                     bool contour,
+                     const std::string& color_map,
+                     const std::string& interpolation,
                      double x_start,
                      double x_end,
                      double y_start,
@@ -58,8 +59,7 @@ public:
              gr_vector_const_void_star& input_items,
              gr_vector_void_star& output_items);
 
-// signals:
-//     void data_ready(std::vector<double> data);
+
 };
 
 } // namespace matrixSink

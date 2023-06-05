@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: ms10
+    id: ms13
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -61,7 +61,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 316.0]
+    coordinate: [64, 244.0]
     rotation: 0
     state: true
 - name: blocks_stream_to_vector_0
@@ -72,14 +72,14 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    num_items: '10000'
+    num_items: '100'
     type: float
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [248, 336.0]
+    coordinate: [280, 280.0]
     rotation: 0
     state: true
 - name: blocks_throttle2_0
@@ -95,12 +95,12 @@ blocks:
     minoutbuf: '0'
     samples_per_second: samp_rate
     type: float
-    vlen: '10000'
+    vlen: '100'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 316.0]
+    coordinate: [464, 260.0]
     rotation: 0
     state: true
 - name: matrixSink_matrix_sink_0
@@ -108,11 +108,14 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
+    color_map: '"rgb"'
     comment: ''
+    contour: 'False'
     gui_hint: ''
+    interpolation: '"BicubicInterpolation"'
     name: '"Matrix Sink"'
-    num_cols: '100'
-    vlen: '10000'
+    num_cols: '10'
+    vlen: '100'
     x_axis_label: '"x-Axis"'
     x_end: '10'
     x_start: '0'
@@ -126,81 +129,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [640, 244.0]
-    rotation: 0
-    state: true
-- name: qtgui_vector_sink_f_0
-  id: qtgui_vector_sink_f
-  parameters:
-    affinity: ''
-    alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    autoscale: 'False'
-    average: '1.0'
-    color1: '"blue"'
-    color10: '"dark blue"'
-    color2: '"red"'
-    color3: '"green"'
-    color4: '"black"'
-    color5: '"cyan"'
-    color6: '"magenta"'
-    color7: '"yellow"'
-    color8: '"dark red"'
-    color9: '"dark green"'
-    comment: ''
-    grid: 'False'
-    gui_hint: ''
-    label1: ''
-    label10: ''
-    label2: ''
-    label3: ''
-    label4: ''
-    label5: ''
-    label6: ''
-    label7: ''
-    label8: ''
-    label9: ''
-    legend: 'True'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    name: '""'
-    nconnections: '1'
-    ref_level: '0'
-    showports: 'False'
-    update_time: '0.10'
-    vlen: '10000'
-    width1: '1'
-    width10: '1'
-    width2: '1'
-    width3: '1'
-    width4: '1'
-    width5: '1'
-    width6: '1'
-    width7: '1'
-    width8: '1'
-    width9: '1'
-    x_axis_label: '"x-Axis"'
-    x_start: '0'
-    x_step: '1.0'
-    x_units: '""'
-    y_axis_label: '"y-Axis"'
-    y_units: '""'
-    ymax: '10'
-    ymin: '-140'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [600, 76.0]
+    coordinate: [696, 108.0]
     rotation: 0
     state: true
 
@@ -208,7 +137,6 @@ connections:
 - [analog_noise_source_x_0, '0', blocks_stream_to_vector_0, '0']
 - [blocks_stream_to_vector_0, '0', blocks_throttle2_0, '0']
 - [blocks_throttle2_0, '0', matrixSink_matrix_sink_0, '0']
-- [blocks_throttle2_0, '0', qtgui_vector_sink_f_0, '0']
 
 metadata:
   file_format: 1

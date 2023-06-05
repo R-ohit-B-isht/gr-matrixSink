@@ -16,6 +16,9 @@ templates:
             ${name},
             ${num_cols},
             ${vlen},
+            ${contour},
+            ${color_map},
+            ${interpolation},
             ${x_start},
             ${x_end},
             ${y_start},
@@ -24,7 +27,8 @@ templates:
             ${z_min},
             ${x_axis_label},
             ${y_axis_label},
-            ${z_axis_label}          
+            ${z_axis_label},
+            None          
         )
         ${win} = sip.wrapinstance(self.${id}.qwidget(), Qt.QWidget)
         ${gui_hint() % win}
@@ -50,6 +54,23 @@ parameters:
     label: Number of Columns
     dtype: int
     default: 10
+-   id: contour
+    label: Contour Plot
+    dtype: bool
+    default: false
+    options: [true, false]
+-   id: color_map
+    label: Color Map
+    dtype: enum
+    default: '"rgb"'
+    options: ['"rgb"','"indexed"','"alpha"']
+    option_lables: ['"RGB"','"Indexed"','"Alpha"']
+-   id: interpolation
+    label: Interpolation
+    dtype: enum
+    default: '"none"'
+    options: ['"none"','"BilinearInterpolation"','"BicubicInterpolation"','"NearestNeighbour"']
+    option_lables: ['"none"','"Bilinear Interpolation"','"Bicubic Interpolation"','"Nearest Neighbour"']
 -   id: x_start
     label: X-Axis Start Value
     dtype: real

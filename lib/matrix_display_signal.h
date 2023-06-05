@@ -1,8 +1,6 @@
 // #ifndef INCLUDED_MATRIXSINK_MATRIX_SINK_IMPL_H
 // #define INCLUDED_MATRIXSINK_MATRIX_SINK_IMPL_H
 #include <QObject>
-#include <vector>
-#include <QDebug>
 #include <QVector>
 
 class matrix_display_signal : public QObject

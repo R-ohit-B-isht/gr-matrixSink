@@ -14,7 +14,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(matrix_sink.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(e86550e3dfab909cdc190abc1a4c36c0)                     */
+/* BINDTOOL_HEADER_FILE_HASH(9a27d1f3a18e8b44ff5174abfc3bd476)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -40,6 +40,9 @@ void bind_matrix_sink(py::module& m)
              py::arg("name"),
              py::arg("num_cols"),
              py::arg("vlen"),
+             py::arg("contour"),
+             py::arg("color_map"),
+             py::arg("interpolation"),
              py::arg("x_start"),
              py::arg("x_end"),
              py::arg("y_start"),
@@ -53,7 +56,6 @@ void bind_matrix_sink(py::module& m)
              D(matrix_sink, make))
 
 
-
         .def("exec_", &matrix_sink::exec_, D(matrix_sink, exec_))
 
 
@@ -62,5 +64,6 @@ void bind_matrix_sink(py::module& m)
             [](matrix_sink& self) { return reinterpret_cast<uintptr_t>(self.qwidget()); },
             D(matrix_sink, qwidget))
 
+            
         ;
 }

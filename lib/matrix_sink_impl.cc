@@ -7,7 +7,6 @@
 
 #include "matrix_sink_impl.h"
 #include <gnuradio/io_signature.h>
-#include <QDebug>
 #include <QVector>
 
 namespace gr {
@@ -17,6 +16,9 @@ using input_type = float;
 matrix_sink::sptr matrix_sink::make(const std::string& name,
                      unsigned int num_cols,
                      unsigned int vlen,
+                     bool contour,
+                     const std::string& color_map,
+                     const std::string& interpolation,
                      double x_start,
                      double x_end,
                      double y_start,
@@ -32,6 +34,9 @@ matrix_sink::sptr matrix_sink::make(const std::string& name,
      name,
      num_cols,
      vlen, 
+     contour,
+     color_map,
+     interpolation,
      x_start, 
      x_end, 
      y_start, 
@@ -51,6 +56,9 @@ matrix_sink::sptr matrix_sink::make(const std::string& name,
 matrix_sink_impl::matrix_sink_impl(const std::string& name,
                      unsigned int num_cols,
                      unsigned int vlen,
+                     bool contour,
+                     const std::string& color_map,
+                     const std::string& interpolation,
                      double x_start,
                      double x_end,
                      double y_start,
@@ -66,16 +74,26 @@ matrix_sink_impl::matrix_sink_impl(const std::string& name,
                          1, 1, sizeof(input_type)* vlen),
                      gr::io_signature::make(0, 0, 0)),
                      d_vlen(vlen),
-                     d_name(name)
+                     d_name(name),
+                     d_parent(parent)
 {
+    d_display = nullptr;
+    d_signal = nullptr;
+    d_argv = nullptr;
     if (qApp != nullptr) {
         d_qApplication = qApp;
     } else {
-        d_qApplication = new QApplication(d_argc, &d_argv);
+         int argc = 1;
+        d_argv = new char;
+        d_argv[0] = '\0';
+        d_qApplication = new QApplication(argc, &d_argv);
     }
     d_display = new matrix_display(name,
      num_cols,
      vlen, 
+     contour,
+     color_map,
+     interpolation,
      x_start, 
      x_end, 
      y_start, 
@@ -85,7 +103,7 @@ matrix_sink_impl::matrix_sink_impl(const std::string& name,
      x_axis_label, 
      y_axis_label, 
      z_axis_label, 
-     parent);
+     d_parent);
 
      d_signal = new matrix_display_signal();
 
@@ -116,7 +134,7 @@ int matrix_sink_impl::work(int noutput_items,
     // Do <+signal processing+>
 
         QVector<double> qvec ;
-        for (int i = 0; i < d_vlen; i++)
+        for (unsigned int i = 0; i < d_vlen; i++)
         {
             qvec.append(in[i]);
         }

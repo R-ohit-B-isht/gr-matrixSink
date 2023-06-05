@@ -32,6 +32,9 @@ class qa_matrix_sink(gr_unittest.TestCase):
         # matrixSink.matrix_sink(
         #     ${name},
         #     ${vlen},
+        #     ${contour},
+        #     ${color_map},
+        #     ${interpolation},
         #     ${num_cols},
         #     ${x_start},
         #     ${x_end},
@@ -43,8 +46,7 @@ class qa_matrix_sink(gr_unittest.TestCase):
         #     ${y_axis_label},
         #     ${z_axis_label}          
         # )
-        instance = matrix_sink("Dopler",2,4,0,10,0,10,10,0,"x","y","z")
-        # instance = text_msg('TestString','test',80,10,None)
+        instance = matrix_sink("Dopler",2,4,False,"rgb","BilinearInterpolation",0,10,0,10,10,0,"x","y","z",None)
         b = sip.wrapinstance(instance.qwidget(),Qt.QWidget)
 
     def test_001_descriptive_test_name(self):

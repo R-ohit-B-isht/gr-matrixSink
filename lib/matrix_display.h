@@ -24,6 +24,9 @@ public:
     explicit matrix_display(const std::string& name,
                      unsigned int num_cols,
                      unsigned int vlen,
+                     bool contour,
+                     const std::string& color_map,
+                     const std::string& interpolation,
                      double x_start,
                      double x_end,
                      double y_start,
@@ -35,7 +38,13 @@ public:
                      const std::string& z_axis_label,
                      QWidget* parent = nullptr);
 
-    // ~matrix_display();
+    void set_contour(bool contour);
+    void set_color_map(const std::string& color_map);
+    void set_interpolation(const std::string& interpolation);
+    void set_x_axis_label(const std::string& x_axis_label);
+    void set_y_axis_label(const std::string& y_axis_label);
+    void set_z_axis_label(const std::string& z_axis_label);
+
 public slots:
     void set_data(QVector<double> data);
 
