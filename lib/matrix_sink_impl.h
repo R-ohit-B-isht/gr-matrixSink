@@ -8,8 +8,8 @@
 #ifndef INCLUDED_MATRIXSINK_MATRIX_SINK_IMPL_H
 #define INCLUDED_MATRIXSINK_MATRIX_SINK_IMPL_H
 
-#include "matrix_display_signal.h"
 #include "matrix_display.h"
+#include "matrix_display_signal.h"
 
 #include <gnuradio/matrixSink/matrix_sink.h>
 #include <qapplication.h>
@@ -18,7 +18,7 @@
 namespace gr {
 namespace matrixSink {
 
-class matrix_sink_impl : public matrix_sink 
+class matrix_sink_impl : public matrix_sink
 {
 private:
     // Nothing to declare in this block.
@@ -26,7 +26,7 @@ private:
     unsigned int d_vlen;
     std::string d_name;
     std::vector<double> d_data;
-    char* d_argv ;
+    char* d_argv;
     matrix_display* d_display;
     matrix_display_signal* d_signal;
 
@@ -46,11 +46,10 @@ public:
                      const std::string& x_axis_label,
                      const std::string& y_axis_label,
                      const std::string& z_axis_label,
-                     QWidget* parent = nullptr
-                     );
+                     QWidget* parent = nullptr);
     ~matrix_sink_impl();
 
-    void exec_()override;
+    void exec_() override;
     QApplication* d_qApplication;
     QWidget* qwidget() override;
 
@@ -58,8 +57,6 @@ public:
     int work(int noutput_items,
              gr_vector_const_void_star& input_items,
              gr_vector_void_star& output_items);
-
-
 };
 
 } // namespace matrixSink

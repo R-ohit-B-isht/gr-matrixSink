@@ -9,7 +9,7 @@
 from gnuradio import gr, gr_unittest
 from PyQt5 import Qt
 import sip
-# from gnuradio import blocks
+
 try:
   from gnuradio.matrixSink import matrix_sink
 except ImportError:
@@ -28,24 +28,6 @@ class qa_matrix_sink(gr_unittest.TestCase):
         self.tb = None
 
     def test_instance(self):
-        # FIXME: Test will fail until you pass sensible arguments to the constructor
-        # matrixSink.matrix_sink(
-        #     ${name},
-        #     ${vlen},
-        #     ${contour},
-        #     ${color_map},
-        #     ${interpolation},
-        #     ${num_cols},
-        #     ${x_start},
-        #     ${x_end},
-        #     ${y_start},
-        #     ${y_end},
-        #     ${z_max},
-        #     ${z_min},
-        #     ${x_axis_label},
-        #     ${y_axis_label},
-        #     ${z_axis_label}          
-        # )
         instance = matrix_sink("Dopler",2,4,False,"rgb","BilinearInterpolation",0,10,0,10,10,0,"x","y","z",None)
         b = sip.wrapinstance(instance.qwidget(),Qt.QWidget)
 

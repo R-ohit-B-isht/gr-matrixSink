@@ -64,6 +64,6 @@ void bind_matrix_sink(py::module& m)
             [](matrix_sink& self) { return reinterpret_cast<uintptr_t>(self.qwidget()); },
             D(matrix_sink, qwidget))
 
-            
+
         ;
 }

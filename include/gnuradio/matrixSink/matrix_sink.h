@@ -49,8 +49,7 @@ public:
                      const std::string& x_axis_label,
                      const std::string& y_axis_label,
                      const std::string& z_axis_label,
-                     QWidget* parent = nullptr
-                     );
+                     QWidget* parent = nullptr);
 
     virtual void exec_() = 0;
     virtual QWidget* qwidget() = 0;

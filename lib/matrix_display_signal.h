@@ -10,11 +10,10 @@ class matrix_display_signal : public QObject
 
 public:
     matrix_display_signal() {}
-    ~matrix_display_signal() {}    
+    ~matrix_display_signal() {}
 
 signals:
-    void dataReady(QVector<double> data);
-    
+    void data_ready(QVector<double> data);
 };
 
-#endif /* INCLUDED_MATRIXSINK_MATRIX_SINK_IMPL_H */
+#endif /* MATRIX_DISPLAY_SIGNAL_H */
