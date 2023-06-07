@@ -42,6 +42,8 @@
         "numbers": "cpp",
         "ostream": "cpp",
         "stdexcept": "cpp",
-        "streambuf": "cpp"
-    }
+        "streambuf": "cpp",
+        "qscrollarea": "cpp"
+    },
+    "editor.formatOnSave": true
 }

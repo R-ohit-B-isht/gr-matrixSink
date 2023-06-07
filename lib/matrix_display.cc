@@ -1,6 +1,5 @@
 #include "matrix_display.h"
 #include <vector>
-
 matrix_display::matrix_display(const std::string& name,
                                unsigned int num_cols,
                                unsigned int vlen,
@@ -30,6 +29,16 @@ matrix_display::matrix_display(const std::string& name,
 
 {
 
+    d_spectrogram = nullptr;
+    d_data = nullptr;
+    d_plot = nullptr;
+    d_hLayout = nullptr;
+    d_colorMap = nullptr;
+    d_menu = nullptr;
+    d_save_act = nullptr;
+    d_stop_act = nullptr;
+    d_contour_menu = nullptr;
+    d_interpolation_menu = nullptr;
 
     d_plot = new QwtPlot;
 
@@ -58,8 +67,59 @@ matrix_display::matrix_display(const std::string& name,
     d_hLayout = new QHBoxLayout();
     d_hLayout->addWidget(d_plot);
     this->setLayout(d_hLayout);
-}
 
+    initialize_mouse_actions();
+}
+matrix_display::~matrix_display()
+{
+    // Qt deletes children when parent is deleted
+}
+void matrix_display::initialize_mouse_actions()
+{
+    d_menu_on = true;
+    d_menu = new QMenu(this);
+
+    d_stop_act = new QAction("Stop", this);
+    d_stop_act->setStatusTip(tr("Start/Stop"));
+    connect(d_stop_act, SIGNAL(triggered()), this, SLOT(set_stop()));
+
+    d_stop_state = false;
+    d_menu->addAction(d_stop_act);
+
+    d_save_act = new QAction("Save", this);
+    d_save_act->setStatusTip(tr("Save Figure"));
+    connect(d_save_act, SIGNAL(triggered()), this, SLOT(save_figure()));
+    d_menu->addAction(d_save_act);
+
+    d_contour_menu = new QMenu;
+    d_contour_menu->setTitle("Contour");
+    QAction* contour_on = new QAction("On", this);
+    connect(contour_on, &QAction::triggered, this, [this]() { contour(true); });
+    d_contour_menu->addAction(contour_on);
+    QAction* contour_off = new QAction("Off", this);
+    connect(contour_off, &QAction::triggered, this, [this]() { contour(false); });
+    d_contour_menu->addAction(contour_off);
+    d_menu->addMenu(d_contour_menu);
+
+    d_interpolation_menu = new QMenu;
+    d_interpolation_menu->setTitle("Interpolation");
+    QAction* bilinear = new QAction("Bilinear Interpolation", this);
+    connect(bilinear, &QAction::triggered, this, [this]() {
+        interpolation("BilinearInterpolation");
+    });
+    d_interpolation_menu->addAction(bilinear);
+    QAction* bicubic = new QAction("Bicubic Interpolation", this);
+    connect(bicubic, &QAction::triggered, this, [this]() {
+        interpolation("BicubicInterpolation");
+    });
+    d_interpolation_menu->addAction(bicubic);
+    QAction* nearest = new QAction("Nearest Neighbour Interpolation", this);
+    connect(nearest, &QAction::triggered, this, [this]() {
+        interpolation("NearestNeighbour");
+    });
+    d_interpolation_menu->addAction(nearest);
+    d_menu->addMenu(d_interpolation_menu);
+}
 void matrix_display::set_contour(bool contour)
 {
     if (contour) {
@@ -124,11 +184,110 @@ void matrix_display::set_z_axis_label(const std::string& z_axis_label)
 }
 
 
+void matrix_display::save_figure()
+{
+    QPixmap qpix = this->grab();
+
+    QString types = QString(tr("JPEG file (*.jpg);;Portable Network Graphics file "
+                               "(*.png);;Bitmap file (*.bmp);;TIFF file (*.tiff)"));
+
+    QString filename, filetype;
+    QFileDialog* filebox = new QFileDialog(0, "Save Image", "./", types);
+    filebox->setViewMode(QFileDialog::Detail);
+    filebox->setAcceptMode(QFileDialog::AcceptSave);
+    filebox->setFileMode(QFileDialog::AnyFile);
+    if (filebox->exec()) {
+        filename = filebox->selectedFiles()[0];
+        filetype = filebox->selectedNameFilter();
+    } else {
+        return;
+    }
+
+    if (filetype.contains(".jpg")) {
+        qpix.save(filename + ".jpg", "JPEG");
+    } else if (filetype.contains(".png")) {
+        qpix.save(filename + ".png", "PNG");
+    } else if (filetype.contains(".bmp")) {
+        qpix.save(filename + ".bmp", "BMP");
+    } else if (filetype.contains(".tiff")) {
+        qpix.save(filename + ".tiff", "TIFF");
+    } else {
+        qpix.save(filename + ".jpg", "JPEG");
+    }
+
+    delete filebox;
+}
+
+void matrix_display::mousePressEvent(QMouseEvent* e)
+{
+
+    bool ctrloff = Qt::ControlModifier != QApplication::keyboardModifiers();
+    if ((e->button() == Qt::MiddleButton) && ctrloff && (d_menu_on)) {
+        if (d_stop_state == false)
+            d_stop_act->setText(tr("Stop"));
+        else
+            d_stop_act->setText(tr("Start"));
+
+        d_menu->exec(e->globalPos());
+    }
+}
+
+void matrix_display::set_stop(bool on)
+{
+    if (!on) {
+        d_stop_state = false;
+    } else {
+        d_stop_state = true;
+    }
+}
+
+void matrix_display::set_stop()
+{
+    if (d_stop_state == false)
+        set_stop(true);
+    else
+        set_stop(false);
+}
+
+void matrix_display::contour(bool contour)
+{
+    if (contour) {
+        for (double level = 0.5; level < 10.0; level += 1.0)
+            d_contour_levels += level;
+        d_spectrogram->setContourLevels(d_contour_levels);
+        d_spectrogram->setDisplayMode(QwtPlotSpectrogram::DisplayMode::ContourMode, true);
+    } else {
+        d_spectrogram->setDisplayMode(QwtPlotSpectrogram::DisplayMode::ContourMode,
+                                      false);
+        d_spectrogram->setDisplayMode(QwtPlotSpectrogram::DisplayMode::ImageMode, true);
+    }
+
+    d_plot->replot();
+}
+
+
+void matrix_display::interpolation(const std::string& interpolation)
+{
+    //'BilinearInterpolation','BicubicInterpolation','NearestNeighbour'
+    if (interpolation == "BilinearInterpolation") {
+        d_data->setResampleMode(QwtMatrixRasterData::ResampleMode::BilinearInterpolation);
+    } else if (interpolation == "BicubicInterpolation") {
+        d_data->setResampleMode(QwtMatrixRasterData::ResampleMode::BicubicInterpolation);
+    } else if (interpolation == "NearestNeighbour") {
+        d_data->setResampleMode(QwtMatrixRasterData::ResampleMode::NearestNeighbour);
+    }
+
+    d_plot->replot();
+}
+
+
 void matrix_display::set_data(QVector<double> data)
 {
 
-    d_data->setValueMatrix(data, d_num_cols);
+    if (!d_stop_state) {
+        d_data->setValueMatrix(data, d_num_cols);
 
-    d_spectrogram->setData(d_data);
-    d_plot->replot();
+        d_spectrogram->setData(d_data);
+        d_plot->replot();
+    }
 }

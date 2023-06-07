@@ -78,6 +78,8 @@ matrix_sink_impl::matrix_sink_impl(const std::string& name,
     d_display = nullptr;
     d_signal = nullptr;
     d_argv = nullptr;
+    d_qApplication = nullptr;
+
     if (qApp != nullptr) {
         d_qApplication = qApp;
     } else {
@@ -115,7 +117,11 @@ matrix_sink_impl::matrix_sink_impl(const std::string& name,
 /*
  * Our virtual destructor.
  */
-matrix_sink_impl::~matrix_sink_impl() { delete d_argv; }
+matrix_sink_impl::~matrix_sink_impl()
+{
+    delete d_argv;
+    delete d_qApplication;
+}
 
 void matrix_sink_impl::exec_() { d_qApplication->exec(); }
 
@@ -126,10 +132,7 @@ int matrix_sink_impl::work(int noutput_items,
                            gr_vector_void_star& output_items)
 {
     auto in = static_cast<const input_type*>(input_items[0]);
-    // log the input size
 
-
-    // Do <+signal processing+>
 
     QVector<double> qvec;
     for (unsigned int i = 0; i < d_vlen; i++) {
